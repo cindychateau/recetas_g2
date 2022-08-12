@@ -59,3 +59,31 @@ def update_recipe():
     
     Recipe.update(request.form)
     return redirect('/dashboard')
+
+@app.route('/view/recipe/<int:id>') #A través de la URL recibimos el ID de la receta
+def show_recipe(id):
+    if 'user_id' not in session: #Solo puede ver la página si ya inició sesión 
+        return redirect('/')
+
+    formulario = {
+        "id": session['user_id']
+    }
+
+    user = User.get_by_id(formulario) #Usuario que inició sesión
+
+
+    formulario_receta = { "id": id }
+    #llamar a una función y debo de recibir la receta
+    recipe = Recipe.get_by_id(formulario_receta)
+
+    return render_template('show_recipe.html', user=user, recipe=recipe)
+
+@app.route('/delete/recipe/<int:id>')
+def delete_recipe(id):
+    if 'user_id' not in session: #Solo puede ver la página si ya inició sesión 
+        return redirect('/')
+    
+    formulario = {"id": id}
+    Recipe.delete(formulario)
+
+    return redirect('/dashboard')

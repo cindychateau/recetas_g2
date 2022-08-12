@@ -68,3 +68,9 @@ class Recipe:
         query = "UPDATE recipes SET name=%(name)s, description=%(description)s, instructions=%(instructions)s, date_made=%(date_made)s, under30=%(under30)s WHERE id = %(id)s"
         result = connectToMySQL('recetas_g2').query_db(query, formulario)
         return result
+
+    @classmethod
+    def delete(cls, formulario): #Recibe formulario con id de receta a borrar
+        query = "DELETE FROM recipes WHERE id = %(id)s"
+        result = connectToMySQL('recetas_g2').query_db(query, formulario)
+        return result
